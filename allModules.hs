@@ -33,8 +33,9 @@ removeFirstAndLast c (x:xs)
 parseInst :: [[Char]] -> [Char] -> [[Char]]
 parseInst out [] = out
 parseInst out (x:xs)
-    | x == "["!!0 = parseInst out next
+    | x == "["!!0 = parseInst outRepeat next
     | x == ","!!0 = parseInst (out ++ [""]) xs
     | otherwise = parseInst (outWithoutTail ++ [(last out) ++ [x]]) xs
     where outWithoutTail = take (length out - 1) out
           next = reverse . takeWhile (/= "]"!!0) . reverse $ xs
+          outRepeat = take (length out - 1) out ++ [((last out) ++ (takeWhile (/= "]"!!0) xs))]
