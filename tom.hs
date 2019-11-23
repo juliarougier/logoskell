@@ -46,7 +46,15 @@
 
 -- déclaration d'une instruction comme un type
  
- data Instruction = Forward Int | Left Int| Right Int | Repeat Int [String] deriving (Read, Show)
+ data Instruction = Forward Int | Left Int | Right Int | Repeat Int [Char]  deriving (Read, Show)
+
+-- fonction qui traite l'instruction repeat
+   
+ parseRepeat :: [[Char]] -> [[Char]] -> [[Char]]
+ parseRepeat [] out = out
+ parseRepeat (x:xs) out = case (read x :: Instruction) of
+     (Main.Repeat a b) -> parseRepeat (["Repeat " ++ show (a-1) ++ "[ " ++ b ++ " ]"] ++ xs) (parseInst out b) 
+     _ -> parseRepeat xs out
 
 --fonction qui redirige l'instruction sur la bonne fonction
 
