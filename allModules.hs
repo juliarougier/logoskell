@@ -39,3 +39,5 @@ parseInst out (x:xs)
     where outWithoutTail = take (length out - 1) out
           next = reverse . takeWhile (/= "]"!!0) . reverse $ xs
           outRepeat = take (length out - 1) out ++ [((last out) ++ (takeWhile (/= "]"!!0) xs))]
+
+
