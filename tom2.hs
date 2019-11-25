@@ -27,9 +27,29 @@ compute (x:xs) out s = case x of
     (Main.Repeat i j) -> compute newXs out s
         where newXs = (take ((length j) * i) (cycle j)) ++ xs
 
+logoskell2svg:: [(Float,Float)]-> (Float,Float)->[[Char]]->[[Char]]
+logoskell2svg [] _ _ = []
+logoskell2svg (x:xs) (cx,cy) s =
+   t++logoskell2svg xs (nx,ny) t
+   where nx =cx+fst x
+         ny = cy+snd x
+         t=[concat["<line x1=\"",show(cx) ,"\" y1=\"",show(cy),"\" x2=\"",show(nx),"\" y2=\"",show(ny),"\" stroke=\"red\" />\n"]]
+    
+decomplist:: [[Char]]->[Char]->[Char]
+decomplist [] a = a
+decomplist (x:xs) s = 
+    s++x++decomplist xs s 
+
+buildfile:: [Char]->String
+buildfile a = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"200\" height=\"200\">\n<title>Exemple</title>\n"++a++"</svg>"        
+
 main = do
      contents <- hGetLine stdin
      -- ligne qui utilse toute les fonctions pour extraire
      let out = compute (read contents :: [Instruction]) [] 0
+     let a = logoskell2svg out (0,0) [""]
+     let b = decomplist a ""
+     let c = buildfile b
+     hPutStr stdout (c)
      hPutStr stdout (show out)
 
