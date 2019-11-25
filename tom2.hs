@@ -50,6 +50,6 @@ main = do
      let a = logoskell2svg out (250,250) [""]
      let b = decomplist a ""
      let c = buildfile b
-     hPutStr stdout (c)
+     --hPutStr stdout (c)
      --hPutStr stdout (show out)
 
