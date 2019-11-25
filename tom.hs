@@ -1,4 +1,6 @@
  import System.IO
+ import Control.Monad
+ import Data.Char
 
 -- utility
  getTuple :: (Int, Int, Int) -> Int -> Int
@@ -23,7 +25,7 @@
  turn old val = (0, 0, new)
     where new = old + val
 
--- fonction qui trie en fonction d'un caractere
+-- fonction qui sépare les instructions
  
  parseInst :: [[Char]] -> [Char] -> [[Char]]
  parseInst out [] = out
@@ -39,8 +41,8 @@
 
  encadrement :: [Char] -> [Char]
  encadrement (x:xs)
-     | x == " "!!0 = encadrement xs
-     | last xs == " "!!0 = encadrement ([x] ++ (take (length xs - 1) xs))
+     | x /= "["!!0 = encadrement xs
+     | last xs /= "]"!!0 = encadrement ([x] ++ (take (length xs - 1) xs))
      | x == "["!!0 && last xs == "]"!!0 = take (length xs - 1) xs
      | otherwise = ""
 
@@ -76,6 +78,7 @@
           newOut = if newCoord == (0, 0) then out else out ++ [newCoord]
  
  main = do
-    let angle = 0 
-    str <- hGetLine stdin
-    putStr str
+    contents <- hGetLine stdin 
+    -- ligne qui utilse toute les fonctions pour extraire
+    let out = compute [] ( parseRepeat ( parseInst [[]] (encadrement contents)) [] ) 0
+    hPutStr stdout (show out)
