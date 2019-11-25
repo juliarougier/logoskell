@@ -46,10 +46,6 @@ buildfile a = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmlns=\"http://w
 main = do
      contents <- hGetLine stdin
      -- ligne qui utilse toute les fonctions pour extraire
-     let out = compute (read contents :: [Instruction]) [] 0
-     let a = logoskell2svg out (250,250) [""]
-     let b = decomplist a ""
-     let c = buildfile b
-     --hPutStr stdout (c)
+     hPutStr stdout (buildfile (decomplist (logoskell2svg (compute (read contents :: [Instruction]) [] 0) (250,250) [""]) ""))
      --hPutStr stdout (show out)
 
