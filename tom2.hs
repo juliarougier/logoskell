@@ -51,5 +51,5 @@ main = do
      let b = decomplist a ""
      let c = buildfile b
      hPutStr stdout (c)
-     hPutStr stdout (show out)
+     --hPutStr stdout (show out)
 
