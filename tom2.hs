@@ -41,13 +41,13 @@ decomplist (x:xs) s =
     s++x++decomplist xs s 
 
 buildfile:: [Char]->String
-buildfile a = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"200\" height=\"200\">\n<title>Exemple</title>\n"++a++"</svg>"        
+buildfile a = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"500\" height=\"500\">\n<title>Exemple</title>\n"++a++"</svg>"        
 
 main = do
      contents <- hGetLine stdin
      -- ligne qui utilse toute les fonctions pour extraire
      let out = compute (read contents :: [Instruction]) [] 0
-     let a = logoskell2svg out (0,0) [""]
+     let a = logoskell2svg out (250,250) [""]
      let b = decomplist a ""
      let c = buildfile b
      hPutStr stdout (c)
